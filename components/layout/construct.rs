@@ -1662,7 +1662,10 @@ trait ObjectElement {
 impl<N> ObjectElement for N  where N: ThreadSafeLayoutNode {
     fn has_object_data(&self) -> bool {
         let elem = self.as_element();
-        let type_and_data = (elem.get_attr(&ns!(), &atom!("type")), elem.get_attr(&ns!(), &atom!("data")));
+        let type_and_data = (
+            elem.get_attr(&ns!(), &local_name!("type")),
+            elem.get_attr(&ns!(), &local_name!("data")),
+        );
         match type_and_data {
             (None, Some(uri)) => is_image_data(uri),
             _ => false
@@ -1671,7 +1674,10 @@ impl<N> ObjectElement for N  where N: ThreadSafeLayoutNode {
 
     fn object_data(&self) -> Option<Url> {
         let elem = self.as_element();
-        let type_and_data = (elem.get_attr(&ns!(), &atom!("type")), elem.get_attr(&ns!(), &atom!("data")));
+        let type_and_data = (
+            elem.get_attr(&ns!(), &local_name!("type")),
+            elem.get_attr(&ns!(), &local_name!("data")),
+        );
         match type_and_data {
             (None, Some(uri)) if is_image_data(uri) => Url::parse(uri).ok(),
             _ => None

@@ -29,6 +29,7 @@ extern crate fnv;
 extern crate gfx;
 extern crate gfx_traits;
 extern crate heapsize;
+#[macro_use] extern crate html5ever_atoms;
 extern crate ipc_channel;
 extern crate libc;
 #[macro_use]
@@ -47,8 +48,8 @@ extern crate rustc_serialize;
 extern crate script_layout_interface;
 extern crate script_traits;
 extern crate selectors;
+#[macro_use] extern crate servo_atoms;
 extern crate smallvec;
-#[macro_use(atom, ns)] extern crate string_cache;
 extern crate style;
 extern crate style_traits;
 extern crate unicode_bidi;

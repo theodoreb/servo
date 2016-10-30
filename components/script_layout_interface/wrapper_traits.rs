@@ -9,12 +9,12 @@ use LayoutNodeType;
 use OpaqueStyleAndLayoutData;
 use SVGSVGData;
 use gfx_traits::ByteIndex;
+use html5ever_atoms::{Namespace, LocalName};
 use msg::constellation_msg::PipelineId;
 use range::Range;
 use restyle_damage::RestyleDamage;
 use std::fmt::Debug;
 use std::sync::Arc;
-use string_cache::{Atom, Namespace};
 use style::atomic_refcell::AtomicRefCell;
 use style::computed_values::display;
 use style::context::SharedStyleContext;
@@ -226,7 +226,7 @@ pub trait ThreadSafeLayoutNode: Clone + Copy + NodeInfo + PartialEq + Sized {
     #[inline]
     fn get_details_summary_pseudo(&self) -> Option<Self> {
         if self.is_element() &&
-           self.as_element().get_local_name() == &atom!("details") &&
+           self.as_element().get_local_name() == &local_name!("details") &&
            self.as_element().get_namespace() == &ns!(html) {
             Some(self.with_pseudo(PseudoElementType::DetailsSummary(None)))
         } else {
@@ -237,9 +237,9 @@ pub trait ThreadSafeLayoutNode: Clone + Copy + NodeInfo + PartialEq + Sized {
     #[inline]
     fn get_details_content_pseudo(&self) -> Option<Self> {
         if self.is_element() &&
-           self.as_element().get_local_name() == &atom!("details") &&
+           self.as_element().get_local_name() == &local_name!("details") &&
            self.as_element().get_namespace() == &ns!(html) {
-            let display = if self.as_element().get_attr(&ns!(), &atom!("open")).is_some() {
+            let display = if self.as_element().get_attr(&ns!(), &local_name!("open")).is_some() {
                 None // Specified by the stylesheet
             } else {
                 Some(display::T::none)
@@ -405,10 +405,10 @@ pub trait ThreadSafeLayoutElement: Clone + Copy + Sized + Debug +
     type ConcreteThreadSafeLayoutNode: ThreadSafeLayoutNode<ConcreteThreadSafeLayoutElement = Self>;
 
     #[inline]
-    fn get_attr(&self, namespace: &Namespace, name: &Atom) -> Option<&str>;
+    fn get_attr(&self, namespace: &Namespace, name: &LocalName) -> Option<&str>;
 
     #[inline]
-    fn get_local_name(&self) -> &Atom;
+    fn get_local_name(&self) -> &LocalName;
 
     #[inline]
     fn get_namespace(&self) -> &Namespace;
